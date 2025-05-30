@@ -29,21 +29,21 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return productService.getProduct(id)
-                .map(Product -> new ResponseEntity<>(Product, HttpStatus.OK))
+                .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product Product) {
-        Product createdProduct = productService.createProduct(Product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product create = productService.createProduct(product);
+        return new ResponseEntity<>(create, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product ProductDetails) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product details) {
         try {
-            Product updatedProduct = productService.updateProduct(id, ProductDetails);
-            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+            Product update = productService.updateProduct(id, details);
+            return new ResponseEntity<>(update, HttpStatus.OK);
         } catch (NotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

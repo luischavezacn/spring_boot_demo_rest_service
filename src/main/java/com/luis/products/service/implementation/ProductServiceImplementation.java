@@ -33,8 +33,7 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        Product find = productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not Found"));
+        var find = exist(id);
         find.setName(product.getName());
         find.setPrice(product.getPrice());
         return productRepository.save(find);
@@ -42,8 +41,12 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not Found"));
+        exist(id);
         productRepository.deleteById(id);
+    }
+
+    private Product exist(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not Found"));
     }
 }
